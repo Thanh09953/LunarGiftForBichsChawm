@@ -1,227 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Tặng bé iu Bích Chăm của anh chiếc bánh trung thu🥰</title>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời Nhắn Từ Anh (Kèm Nhạc)</title>
     <style>
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            overflow: hidden;
-            background-color: #000000;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-
-        #container {
-            width: 100vw;
-            height: 100vh;
-        }
-
-        #message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            padding: 50px 20px;
+            background-color: #ffe0f0; /* Nền hồng nhẹ nhàng */
+            color: #4a4a4a;
+            line-height: 1.8;
             text-align: center;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            z-index: 100; 
         }
-
-        #startButton {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            background-color: #ff005c;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            text-align: left;
+        }
+        h2 {
+            color: #d6338a; /* Màu hồng đậm */
+            border-bottom: 2px solid #ff99c8;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        #message-display {
+            white-space: pre-wrap; /* Hiển thị giống như đang đánh máy */
+            min-height: 250px; 
+            font-size: 1.1em;
+            color: #333;
+        }
+        /* Hiệu ứng nhấp nháy cho con trỏ */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background-color: #d6338a;
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        audio {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        /* Thông báo nhỏ nếu nhạc không tự bật */
+        #autoplay-info {
+            font-size: 0.9em;
+            color: #888;
             margin-top: 10px;
-            box-shadow: 0 0 15px #ff005c; 
         }
     </style>
 </head>
 <body>
-    <div id="container"></div>
+    <div class="container">
+        <audio controls autoplay loop id="background-music">
+            <source src="music1709.mp3" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ phần tử audio.
+        </audio>
+        
+        <p id="autoplay-info">
+            (Nếu nhạc không tự bật, xin vui lòng nhấn nút Play ở trên.)
+        </p>
 
-    <div id="message">
-        <p>Bích Chăm yêu dấu, Tặng bé iu chiếc “bánh trung thu” bất ngờ từ anh 🥰</p>
-        <button id="startButton">Bấm để mở quà</button>
+        <h2>Lời Anh Muốn Gửi Đến Em</h2>
+        
+        <p id="message-display"></p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://threejs.org/examples/js/loaders/FontLoader.js"></script>
-    <script src="https://threejs.org/examples/js/geometries/TextGeometry.js"></script>
-
     <script>
-        let scene, camera, renderer;
-        let characters = [];
-        let clock = new THREE.Clock();
-        let audioContext, musicSource;
-        let reflectionCylinder; 
+        // Nội dung tin nhắn
+        const message = "Anh chờ em ngủ anh mới dám nói, anh nói xong anh biết chắc là sáng mai em chỉ trả lời một cái sticker rồi xong, nhưng mong là em sẽ đọc hết đoạn tin nhắn này của anh, xem xong em không trả lời cũng được. Nhưng mà chỉ mong em sẽ phần nào hiểu cho anh hơn, anh cũng chỉ là thằng trãi qua đau khổ đi tìm hạnh phúc thôi, tự hỏi nếu như một ngày anh thử im lặng thì trong khoảng lặng đó em có chút nào bận tâm hay suy nghĩ nhắn cho anh hay không, không phải anh bắt em phải chủ động nhắn cho anh nhưng mà chỉ cần một câu hỏi han anh thôi cũng được rồi. Anh là một đứa hay suy nghĩ nhiều chắc em cũng biết, tình yêu mà đâu phải lúc nào rãnh mới nhắn tin cho nhau đâu, hạnh phúc của anh đơn giản chỉ từ những lời quan tâm nhỏ nhặt thôi. Anh biết em cũng chỉ là chập chửng tập yêu nên anh cũng muốn nói ra để em hiểu anh hơn, yêu em không biết cất đâu cho hết nhưng anh cũng cần sự cảm thông thấu hiểu từ em như cách anh cũng đang mỗi ngày tìm hiểu, cảm thông, thấu hiểu cho em. Anh đã coi em là tất cả, là tương lai của anh nên anh không muốn vì một khoảnh khắc tồi tệ mà bỏ lỡ nhau. Nếu em đọc đến đây thì em cũng phần nào hiểu rồi, anh không muốn em bé của anh vì anh mà phải buồn vì điều gì hết, anh cũng chỉ muốn mỗi khi anh vô tình làm em buồn thì em sẽ cùng anh ngồi lại nói rõ mọi chuyện, và tất nhiên trước đó chắc chắn anh sẽ tự biết lỗi của mình. Cảm ơn đã đọc đến đây. Yêu em nhiều lắm💕";
+        
+        // Vùng hiển thị
+        const displayElement = document.getElementById('message-display');
+        
+        // Tốc độ hiển thị: 50ms cho mỗi ký tự (Tốc độ dễ đọc)
+        const delay = 50; 
 
-        // Lời nhắn sẽ tạo nên hình trái tim 3D
-        const WORDS = "Bích Chăm yêu anh mãi mãi là điều tuyệt vời nhất mà anh có được! Hẹn thề lúc xưa sẽ không xa rời. Yêu Love Forever Mãi Mãi";
-        const PARTICLE_COUNT_MULTIPLIER = 12;
+        let index = 0;
+        let cursor = document.createElement('span');
+        cursor.classList.add('cursor');
+        
+        // Thêm con trỏ vào cuối cùng ban đầu
+        displayElement.appendChild(cursor);
 
-        // --- HÀM TẠO HÌNH TRÁI TIM 3D ---
-        function getHeartPosition(t, scale = 12) {
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
-            const z = (Math.random() - 0.5) * 10;
-            return new THREE.Vector3(x * scale, (y * scale) - 50, z);
-        }
-
-        // --- KHỞI TẠO THREE.JS VÀ HIỆU ỨNG ---
-        function init() {
-            // 1. Scene & Camera
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 150;
-
-            // 2. Renderer
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('container').appendChild(renderer.domElement);
-
-            // 3. Ánh sáng (Cường độ cao)
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); 
-            scene.add(ambientLight);
-            
-            const pointLight = new THREE.PointLight(0xff005c, 10, 500); 
-            pointLight.position.set(0, 50, 50);
-            scene.add(pointLight);
-
-            const pointLight2 = new THREE.PointLight(0xff005c, 5, 500); 
-            pointLight2.position.set(0, -100, 0);
-            scene.add(pointLight2);
-            
-            // 4. Hình trụ giả lập phản chiếu (Reflection Cylinder)
-            const cylinderGeometry = new THREE.CylinderGeometry(60, 100, 5, 64);
-            const cylinderMaterial = new THREE.MeshLambertMaterial({
-                color: 0x0a0a0a,
-                transparent: true,
-                opacity: 0.8,
-                emissive: 0x88003a, 
-                emissiveIntensity: 1.5 
-            });
-            reflectionCylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-            reflectionCylinder.position.y = -100;
-            scene.add(reflectionCylinder);
-
-            // 5. Tạo các Hạt (Chữ cái)
-            const filteredWords = WORDS.split('').filter(char => char.trim() !== '');
-            const totalParticles = filteredWords.length * PARTICLE_COUNT_MULTIPLIER;
-
-            const loader = new THREE.FontLoader();
-            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+        function typeWriter() {
+            if (index < message.length) {
+                // Thêm ký tự tiếp theo
+                displayElement.insertBefore(document.createTextNode(message.charAt(index)), cursor);
+                index++;
                 
-                for (let i = 0; i < totalParticles; i++) {
-                    const char = filteredWords[i % filteredWords.length];
-                    
-                    const geometry = new THREE.TextGeometry(char, {
-                        font: font,
-                        size: 3,
-                        height: 0.5,
-                    });
-                    
-                    const material = new THREE.MeshLambertMaterial({ 
-                        color: new THREE.Color().setHSL(Math.random() * 0.2 + 0.8, 1, 0.9), 
-                        emissive: new THREE.Color(0xff88aa), 
-                        emissiveIntensity: 2 
-                    });
-
-                    const mesh = new THREE.Mesh(geometry, material);
-                    
-                    // Vị trí ban đầu ngẫu nhiên (tạo hiệu ứng bùng nổ)
-                    mesh.position.set(
-                        (Math.random() - 0.5) * 400,
-                        (Math.random() - 0.5) * 400,
-                        (Math.random() - 0.5) * 400
-                    );
-                    
-                    mesh.userData.targetT = Math.random() * Math.PI * 2;
-                    mesh.userData.originalEmissiveIntensity = 2; 
-                    
-                    characters.push(mesh);
-                    scene.add(mesh);
-                }
-
-                animate();
-            });
-        }
-
-        // --- VÒNG LẶP RENDER (CHẠY CODE) ---
-        function animate() {
-            requestAnimationFrame(animate);
-
-            const time = clock.getElapsedTime();
-
-            characters.forEach(mesh => {
-                // Di chuyển nhanh về hình trái tim
-                const targetPos = getHeartPosition(mesh.userData.targetT);
-                mesh.position.lerp(targetPos, 0.15); 
-
-                // Xoay nhẹ từng hạt
-                mesh.rotation.x += 0.05; 
-                mesh.rotation.y += 0.05; 
-
-                // Hiệu ứng Lấp Lánh Cường Độ Cao
-                const flicker = Math.sin(time * 15 + mesh.userData.targetT) * 0.5 + 0.5;
-                mesh.material.emissiveIntensity = mesh.userData.originalEmissiveIntensity * (0.5 + flicker * 0.5);
-                
-            });
-
-            // Xoay toàn bộ trái tim và hình trụ phản chiếu
-            scene.rotation.y = time * 0.15;
-            if (reflectionCylinder) {
-                reflectionCylinder.rotation.y = -time * 0.3;
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        // --- XỬ LÝ ÂM THANH ---
-        async function setupAudio() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // File nhạc cần nằm cùng thư mục
-                const response = await fetch('music.mp3'); 
-                const arrayBuffer = await response.arrayBuffer();
-                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-                musicSource = audioContext.createBufferSource();
-                musicSource.buffer = audioBuffer;
-                musicSource.loop = true;
-
-                musicSource.connect(audioContext.destination);
-                
-                musicSource.start(0);
-
-            } catch (error) {
-                console.error("Lỗi khi tải hoặc phát nhạc:", error);
+                // Thiết lập hẹn giờ để gọi lại hàm này sau 'delay'
+                setTimeout(typeWriter, delay);
+            } else {
+                // Hoàn thành: Xóa con trỏ nhấp nháy
+                cursor.remove();
             }
         }
 
-        // --- KÍCH HOẠT BẰNG NHẤP VÀO MÀN HÌNH ---
-        document.getElementById('startButton').addEventListener('click', () => {
-            document.getElementById('message').style.display = 'none';
-            
-            init(); // Bắt đầu 3D
-            setupAudio(); // Bắt đầu nhạc
+        // Khởi động nhạc (thử tự động phát)
+        document.getElementById('background-music').play().catch(error => {
+            // Xử lý lỗi nếu trình duyệt chặn autoplay
+            console.log("Autoplay bị chặn.");
         });
 
-        window.addEventListener('resize', () => {
-            if (camera) {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-            }
-            if (renderer) {
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-        });
+        // Bắt đầu hiệu ứng đánh máy
+        typeWriter();
     </script>
 </body>
 </html>
